@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  frontend:
+    container_name: frontend-queues
+    build:
+      context: ./bull-arena-frontend
+    depends_on:
+      - master
+      - slave1
+      - slave2
+      - redis
+    ports:
+      - "4567:4567"
+  master:
+    container_name: master
+    build:
+      context: ./master
+    depends_on:
+      - redis
+  slave1:
+    container_name: slave1
+    build:
+      context: ./slave
+    depends_on:
+      - redis
+  slave2:
+    container_name: slave2
+    build:
+      context: ./slave
+    depends_on:
+      - redis
+  redis:
+    container_name: redis
+    image: "redis:alpine"
